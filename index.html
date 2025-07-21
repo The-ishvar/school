@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Attendance</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      max-width: 95%;
+      width: 380px;
+      text-align: center;
+    }
+
+    h2, h3 {
+      color: #006064;
+    }
+
+    input, select, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #00796b;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #004d40;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 1rem;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background-color: #004d40;
+      color: white;
+    }
+
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+
+    #clockBox {
+      margin-bottom: 12px;
+      padding: 10px;
+      background: #e0f2f1;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    #timeNow {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #004d40;
+    }
+
+    #dateNow {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    @media (max-width: 450px) {
+      .container {
+        padding: 1rem;
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="mainMenu">
+    <h2>📘 AI Attendance</h2>
+    <button onclick="toggleLogin()">🔐 टीचर लॉगिन</button>
+    <button onclick="openStudentPage()">🎓 छात्र उपस्थिति</button>
+  </div>
+
+  <div class="container hidden" id="loginForm">
+    <h3>👨‍🏫 लॉगिन करें</h3>
+    <input type="text" id="teacherName" placeholder="टीचर का नाम" />
+    <input type="password" id="teacherPass" placeholder="पासवर्ड (6+ अक्षर)" />
+    <button onclick="handleLogin()">Login</button>
+  </div>
+
+  <div class="container hidden" id="dashboard">
+    <div id="clockBox">
+      <div id="timeNow"></div>
+      <div id="dateNow"></div>
+    </div>
+
+    <h2>📋 उपस्थिति डैशबोर्ड</h2>
+
+    <label>कक्षा चुनें:</label>
+    <select id="classSelect">
+      <option value="">--चुनें--</option>
+      <option value="Class 6">Class 6</option>
+      <option value="Class 7">Class 7</option>
+      <option value="Class 8">Class 8</option>
+      <option value="Class 9">Class 9</option>
+      <option value="Class 10">Class 10</option>
+    </select>
+
+    <input type="text" id="studentName" placeholder="छात्र का नाम लिखें" />
+    <button onclick="markAttendance()">✅ उपस्थिति दर्ज करें</button>
+
+    <h3>📜 उपस्थिति रिकॉर्ड</h3>
+    <table id="attendanceTable">
+      <thead>
+        <tr><th>कक्षा</th><th>नाम</th><th>तारीख</th><th>समय</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    function toggleLogin() {
+      document.getElementById("mainMenu").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+    }
+
+    function openStudentPage() {
+      document.getElementById("mainMenu").classList.add("hidden");
+      document.getElementById("dashboard").classList.remove("hidden");
+      startClock();
+      loadAttendance();
+    }
+
+    function handleLogin() {
+      const name = document.getElementById("teacherName").value.trim();
+      const pass = document.getElementById("teacherPass").value.trim();
+
+      if (name === "") {
+        alert("कृपया टीचर का नाम दर्ज करें।");
+        return;
+      }
+
+      if (pass.length < 6) {
+        alert("पासवर्ड कम से कम 6 अक्षर का होना चाहिए।");
+        return;
+      }
+
+      document.getElementById("loginForm").classList.add("hidden");
+      document.getElementById("dashboard").classList.remove("hidden");
+      startClock();
+      loadAttendance();
+    }
+
+    function startClock() {
+      updateClock();
+      setInterval(updateClock, 1000);
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString('hi-IN');
+      const date = now.toLocaleDateString('hi-IN', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      });
+      const weekday = now.toLocaleDateString('hi-IN', { weekday: 'long' });
+
+      document.getElementById("timeNow").innerText = `🕒 समय: ${time}`;
+      document.getElementById("dateNow").innerText = `📅 दिन: ${weekday}, तारीख: ${date}`;
+    }
+
+    function markAttendance() {
+      const name = document.getElementById("studentName").value.trim();
+      const selectedClass = document.getElementById("classSelect").value;
+
+      if (selectedClass === "") return alert("कृपया कक्षा चुनें।");
+      if (name === "") return alert("कृपया छात्र का नाम दर्ज करें।");
+
+      const now = new Date();
+      const record = {
+        name,
+        className: selectedClass,
+        date: now.toLocaleDateString('hi-IN'),
+        time: now.toLocaleTimeString('hi-IN')
+      };
+
+      let attendance = JSON.parse(localStorage.getItem("attendance") || "[]");
+      attendance.push(record);
+      localStorage.setItem("attendance", JSON.stringify(attendance));
+      addRecordToTable(record);
+
+      document.getElementById("studentName").value = "";
+      document.getElementById("classSelect").value = "";
+    }
+
+    function addRecordToTable(record) {
+      const row = `<tr>
+        <td>${record.className}</td>
+        <td>${record.name}</td>
+        <td>${record.date}</td>
+        <td>${record.time}</td>
+      </tr>`;
+      document.querySelector("#attendanceTable tbody").innerHTML += row;
+    }
+
+    function loadAttendance() {
+      const data = JSON.parse(localStorage.getItem("attendance") || "[]");
+      data.forEach(addRecordToTable);
+    }
+  </script>
+</body>
+</html>
