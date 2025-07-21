@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="ishvarsuthar2.png" type="image/png"> <!-- ✅ Favicon सही ढंग से जोड़ा गया -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="ishvarsuthar2.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Attendance</title>
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -27,12 +29,20 @@
       text-align: center;
     }
 
-    h2, h3 {
+    .container img {
+      width: 60px;
+      border-radius: 200px;
+    }
+
+    h2,
+    h3 {
       color: #006064;
     }
 
-    input, select, button {
-      width: 100%;
+    input,
+    select,
+    button {
+      width: 80%;
       margin: 10px 0;
       padding: 12px;
       font-size: 1rem;
@@ -46,7 +56,6 @@
       font-weight: bold;
       border: none;
       cursor: pointer;
-      transition: background 0.3s ease;
     }
 
     button:hover {
@@ -69,7 +78,8 @@
       color: white;
     }
 
-    th, td {
+    th,
+    td {
       padding: 8px;
       border: 1px solid #ccc;
     }
@@ -101,9 +111,11 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="container" id="mainMenu">
+    <img src="ishvarsuthar2.png" alt="">
     <h2>📘 AI Attendance</h2>
     <button onclick="toggleLogin()">🔐 टीचर लॉगिन</button>
     <button onclick="openStudentPage()">🎓 छात्र उपस्थिति</button>
@@ -111,8 +123,8 @@
 
   <div class="container hidden" id="loginForm">
     <h3>👨‍🏫 लॉगिन करें</h3>
-    <input type="text" id="teacherName" placeholder="टीचर का नाम" />
-    <input type="password" id="teacherPass" placeholder="पासवर्ड (6+ अक्षर)" />
+    <input type="text" id="teacherName" placeholder="टीचर का नाम" required />
+    <input type="password" id="teacherPass" placeholder="पासवर्ड (6+ अक्षर)" required />
     <button onclick="handleLogin()">Login</button>
   </div>
 
@@ -126,7 +138,7 @@
 
     <label>कक्षा चुनें:</label>
     <select id="classSelect">
-      <option value="">--चुनें--</option>
+      <option value="" class="w2">--चुनें--</option>
       <option value="Class 6">Class 6</option>
       <option value="Class 7">Class 7</option>
       <option value="Class 8">Class 8</option>
@@ -134,13 +146,20 @@
       <option value="Class 10">Class 10</option>
     </select>
 
-    <input type="text" id="studentName" placeholder="छात्र का नाम लिखें" />
+    <input type="text" id="studentName" placeholder="छात्र का नाम लिखें" required />
     <button onclick="markAttendance()">✅ उपस्थिति दर्ज करें</button>
+
+    <h3 id="totalCount">🙋 कुल उपस्थिति: 0</h3>
 
     <h3>📜 उपस्थिति रिकॉर्ड</h3>
     <table id="attendanceTable">
       <thead>
-        <tr><th>कक्षा</th><th>नाम</th><th>तारीख</th><th>समय</th></tr>
+        <tr>
+          <th>कक्षा</th>
+          <th>नाम</th>
+          <th>तारीख</th>
+          <th>समय</th>
+        </tr>
       </thead>
       <tbody></tbody>
     </table>
@@ -169,7 +188,7 @@
       }
 
       if (pass.length < 6) {
-        alert("पासवर्ड कम से कम 6 अक्षर का होना चाहिए।");
+        alert("पासवर्ड कम से कम छे अक्षर का होना चाहिए।");
         return;
       }
 
@@ -179,11 +198,13 @@
       loadAttendance();
     }
 
+    // clock ko 1s me update kereta he 
     function startClock() {
       updateClock();
       setInterval(updateClock, 1000);
     }
 
+    // date dikhata he is liye he ye 
     function updateClock() {
       const now = new Date();
       const time = now.toLocaleTimeString('hi-IN');
@@ -196,6 +217,7 @@
       document.getElementById("dateNow").innerText = `📅 दिन: ${weekday}, तारीख: ${date}`;
     }
 
+    // class ka name or upseteti ko chek kereta he or din semey or stork kereta he 
     function markAttendance() {
       const name = document.getElementById("studentName").value.trim();
       const selectedClass = document.getElementById("classSelect").value;
@@ -204,22 +226,34 @@
       if (name === "") return alert("कृपया छात्र का नाम दर्ज करें।");
 
       const now = new Date();
+      const today = now.toLocaleDateString('hi-IN');
+
+      let attendance = JSON.parse(localStorage.getItem("attendance") || "[]");
+
+      // डुप्लिकेट एंट्री चेक करें
+      const isDuplicate = attendance.some(item => item.name === name && item.date === today);
+      if (isDuplicate) {
+        alert("⚠️ यह नाम आज पहले ही दर्ज हो चुका है।");
+        return;
+      }
+
       const record = {
         name,
         className: selectedClass,
-        date: now.toLocaleDateString('hi-IN'),
+        date: today,
         time: now.toLocaleTimeString('hi-IN')
       };
 
-      let attendance = JSON.parse(localStorage.getItem("attendance") || "[]");
       attendance.push(record);
       localStorage.setItem("attendance", JSON.stringify(attendance));
       addRecordToTable(record);
+      updateTotalCount(attendance);
 
       document.getElementById("studentName").value = "";
       document.getElementById("classSelect").value = "";
     }
 
+    // ye new data ko jodta he 
     function addRecordToTable(record) {
       const row = `<tr>
         <td>${record.className}</td>
@@ -233,7 +267,13 @@
     function loadAttendance() {
       const data = JSON.parse(localStorage.getItem("attendance") || "[]");
       data.forEach(addRecordToTable);
+      updateTotalCount(data);
+    }
+
+    function updateTotalCount(data) {
+      document.getElementById("totalCount").innerText = `🙋 कुल उपस्थिति: ${data.length}`;
     }
   </script>
 </body>
+
 </html>
