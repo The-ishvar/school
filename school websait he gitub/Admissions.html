@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="hi" dir="ltr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>एडमिशन | मोबाइल‑फर्स्ट स्कूल टेम्पलेट</title>
+  <meta name="theme-color" content="#0ea5e9" />
+  <meta name="description"
+    content="स्कूल प्रवेश (Admissions) के लिए मोबाइल‑फर्स्ट, साफ‑सुथरा और कॉपी‑पेस्ट HTML टेम्पलेट।" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230ea5e9'/><text x='50' y='60' text-anchor='middle' font-size='48' fill='white' font-family='Arial'>A</text></svg>">
+  <style>
+    :root {
+      --bg: #0b1220;
+      /* पेज बैकग्राउंड */
+      --ink: #ffffff;
+      /* मुख्य टेक्स्ट */
+      --muted: #b6c2d9;
+      /* हल्का टेक्स्ट */
+      --brand: #0ea5e9;
+      /* ब्रांड कलर */
+      --surface: #111a2e;
+      /* कार्ड बैकग्राउंड */
+      --ring: #0ea5e955;
+      /* फोकस ग्लो */
+      --ok: #22c55e;
+      /* हरा */
+      --warn: #f59e0b;
+      /* पीला */
+      --danger: #ef4444;
+      /* लाल */
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Arial, "Noto Sans Devanagari", "Noto Sans", sans-serif;
+      background: radial-gradient(1000px 400px at 50% -100px, #0ea5e915, transparent), var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(960px, 92%);
+      margin-inline: auto
+    }
+
+    /* हेडर */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: saturate(160%) blur(8px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom: 1px solid #1f2b44;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit
+    }
+
+    .logo {
+      width: 36px;
+      aspect-ratio: 1;
+      border-radius: 10px;
+      background: var(--brand);
+      display: grid;
+      place-items: center;
+      font-weight: 900
+    }
+
+    .brand span {
+      font-weight: 800;
+      letter-spacing: .3px
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor: pointer
+    }
+
+    .btn.primary {
+      background: var(--brand);
+      color: #fff
+    }
+
+    .btn.secondary {
+      border-color: #2a3a59;
+      color: #fff;
+      background: transparent
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--muted)
+    }
+
+    .btn:hover {
+      opacity: .95
+    }
+
+    /* हीरो */
+    .hero {
+      padding: 28px 0 10px
+    }
+
+    .hero h1 {
+      font-size: clamp(22px, 6vw, 34px);
+      margin: 0 0 6px
+    }
+
+    .hero p {
+      margin: 0 0 14px;
+      color: var(--muted)
+    }
+
+    /* सेक्शन */
+    .section {
+      padding: 18px 0
+    }
+
+    .section h2 {
+      font-size: clamp(18px, 5vw, 26px);
+      margin: 0 0 10px
+    }
+
+    .lead {
+      color: var(--muted);
+      margin: 0 0 16px
+    }
+
+    /* कार्ड ग्रिड */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px
+    }
+
+    @media(min-width:720px) {
+      .grid.cols-2 {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(min-width:960px) {
+      .grid.cols-3 {
+        grid-template-columns: 1fr 1fr 1fr
+      }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid #1f2b44;
+      border-radius: 16px;
+      padding: 16px
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 18px
+    }
+
+    /* स्टेप्स */
+    .step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start
+    }
+
+    .badge {
+      min-width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: #18304f;
+      border: 1px solid #2a3a59;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: var(--brand)
+    }
+
+    .ok {
+      color: var(--ok)
+    }
+
+    /* लिस्ट */
+    ul.clean {
+      padding-left: 18px;
+      margin: 8px 0
+    }
+
+    ul.clean li {
+      margin: 6px 0
+    }
+
+    /* टेबल */
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid #1f2b44;
+      border-radius: 14px
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 540px;
+      background: var(--surface)
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #1f2b44;
+      text-align: left
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: #10192c;
+      z-index: 1
+    }
+
+    tr:hover td {
+      background: #0c1427
+    }
+
+    /* फॉर्म */
+    form {
+      display: grid;
+      gap: 10px
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px
+    }
+
+    @media(min-width:720px) {
+      .row.two {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #2a3a59;
+      background: #0b1325;
+      color: var(--ink)
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--ring)
+    }
+
+    textarea {
+      min-height: 120px
+    }
+
+    .help {
+      font-size: .9rem;
+      color: var(--muted)
+    }
+
+    /* फुटर */
+    footer {
+      padding: 24px 0 40px;
+      color: var(--muted)
+    }
+
+    /* फ्लोट CTA */
+    .fab {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 8px 24px #0006;
+      cursor: pointer
+    }
+  </style>
+</head>
+
+<body>
+  <!-- हेडर -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="ब्रांड">
+        <div class="logo">🏫</div>
+        <span>Bhaleri</span>
+      </a>
+      <!-- <div class="nav-actions">
+        <a class="btn ghost" href="#process">प्रक्रिया</a>
+        <a class="btn ghost" href="#docs">दस्तावेज़</a>
+        <a class="btn ghost" href="#fees">फीस</a>
+        <a class="btn primary" href="#apply">ऑनलाइन आवेदन</a>
+      </div> -->
+    </div>
+  </header>
+
+  <!-- हीरो -->
+  <section class="hero container" id="top">
+    <h1>एडमिशन (Admissions)</h1>
+    <p>कक्षा 1 से 12 तक प्रवेश उपलब्ध। कक्षा 11‑12 में <b>Arts</b>, <b>Agriculture</b> और <b>Science (Maths / Bio)</b>
+      स्ट्रीम्स। कक्षा 9 से <b>IT/Computer</b> भी पढ़ाया जाता है।</p>
+    <div class="nav-actions">
+      <a class="btn primary" href="#apply">आवेदन करें</a>
+      <!-- <a class="btn secondary" href="#download">फॉर्म डाउनलोड</a> -->
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- प्रवेश प्रक्रिया -->
+    <section class="section" id="process">
+      <h2>प्रवेश प्रक्रिया (Admission Process)</h2>
+      <p class="lead">प्रवेश <b>पहले आओ – पहले पाओ</b> और मेरिट के आधार पर किया जाता है। नीचे दिए स्टेप्स फॉलो करें:</p>
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="step">
+            <div class="badge">1</div>
+            <div>
+              <h3>फॉर्म प्राप्त करें</h3>
+              <p>वेबसाइट से <a href="#download">डाउनलोड</a> करें या कार्यालय से लें।</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="step">
+            <div class="badge">2</div>
+            <div>
+              <h3>फॉर्म भरें</h3>
+              <p>सही जानकारी भरें और आवश्यक दस्तावेज़ संलग्न करें।</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="step">
+            <div class="badge">3</div>
+            <div>
+              <h3>जमा करें</h3>
+              <p>ऑनलाइन सबमिट करें या कार्यालय में जमा करें।</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="step">
+            <div class="badge">4</div>
+            <div>
+              <h3>पुष्टिकरण</h3>
+              <p>चयन के बाद सूचना भेजी जाएगी—फीस जमा कर प्रवेश सुरक्षित करें।</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- आवश्यक दस्तावेज़ -->
+    <section class="section" id="docs">
+      <h2>आवश्यक दस्तावेज़ (Required Documents)</h2>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>पहचान व आयु</h3>
+          <ul class="clean">
+            <li>जन्म प्रमाण पत्र</li>
+            <li>आधार कार्ड (विद्यार्थी)</li>
+            <li>4 पासपोर्ट साइज फोटो</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>शैक्षणिक</h3>
+          <ul class="clean">
+            <li>पिछली कक्षा की मार्कशीट</li>
+            <li>ट्रांसफर सर्टिफिकेट (यदि लागू हो)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>अन्य</h3>
+          <ul class="clean">
+            <li>टीसी/एलसी, जाति प्रमाण पत्र (यदि लागू हो)</li>
+            <li>अभिभावक का ID</li>
+          </ul>
+        </div>
+      </div>
+      <p class="help">नोट: मूल दस्तावेज़ सत्यापन हेतु साथ लाएँ।</p>
+    </section>
+
+    <!-- फीस स्ट्रक्चर -->
+    <section class="section" id="fees">
+      <h2>फीस स्ट्रक्चर </h2>
+      <!-- <p class="lead">उदाहरण के तौर पर प्लेसहोल्डर राशि दी गई हैं—इन्हें अपने स्कूल के अनुसार अपडेट करें।</p> -->
+      <div class="table-wrap">
+        <table aria-label="फीस टेबल">
+          <thead>
+            <tr>
+              <th>कक्षा स्तर</th>
+              <th>मासिक फीस (₹)</th>
+              <th>अन्य शुल्क (वार्षिक)</th>
+              <th>टिप्पणी</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>प्राथमिक (Class 1–5)</td>
+              <td contenteditable>800</td>
+              <td contenteditable>1500 (एडमिशन + ए뉴अल)</td>
+              <td>यूनिफॉर्म/पुस्तकें अलग</td>
+            </tr>
+            <tr>
+              <td>माध्यमिक (Class 6–10)</td>
+              <td contenteditable>1000</td>
+              <td contenteditable>1800</td>
+              <td>लैब/आईटी शुल्क आवश्यकता अनुसार</td>
+            </tr>
+            <tr>
+              <td>वरिष्ठ माध्यमिक (11–12) Arts</td>
+              <td contenteditable>1200</td>
+              <td contenteditable>2200</td>
+              <td>स्ट्रीम अनुसार परिवर्तन संभव</td>
+            </tr>
+            <tr>
+              <td>वरिष्ठ माध्यमिक (11–12) Science – Maths</td>
+              <td contenteditable>1500</td>
+              <td contenteditable>3000</td>
+              <td>लैब शुल्क शामिल</td>
+            </tr>
+            <tr>
+              <td>वरिष्ठ माध्यमिक (11–12) Science – Bio</td>
+              <td contenteditable>1500</td>
+              <td contenteditable>3200</td>
+              <td>बायोलॉजी लैब शुल्क</td>
+            </tr>
+            <tr>
+              <td>वरिष्ठ माध्यमिक (11–12) Agriculture</td>
+              <td contenteditable>1400</td>
+              <td contenteditable>2600</td>
+              <td>प्रैक्टिकल/विजिट चार्जेज़</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="help">* वास्तविक फीस जानने हेतु कार्यालय से संपर्क करें।</p>
+    </section>
+
+  </main>
+
+  <footer class="container">
+    <small>© <span id="year"></span> आपका विद्यालय, भालेरी (तारानगर), जिला चुरू • सभी अधिकार सुरक्षित।</small>
+  </footer>
+
+  <button class="fab" onclick="document.querySelector('#apply').scrollIntoView({behavior:'smooth'})">आवेदन</button>
+
+  <script>
+    // वर्ष
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // फॉर्म हैंडलर (डेमो)
+    const form = document.getElementById('applyForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // बेसिक वेलिडेशन
+      const data = Object.fromEntries(new FormData(form).entries());
+      if (!data.name || !data.guardian || !data.class || !data.phone || !data.address) {
+        alert('कृपया * चिह्नित सभी आवश्यक जानकारी भरें।');
+        return;
+      }
+      if ((data.class === 'Class 11' || data.class === 'Class 12') && !data.stream) {
+        alert('कक्षा 11–12 के लिए स्ट्रीम चुनना आवश्यक है।');
+        return;
+      }
+      if (data.phone && !/^\d{10}$/.test(data.phone)) {
+        alert('मोबाइल नंबर 10 अंकों का होना चाहिए।');
+        return;
+      }
+
+      // डेमो सफलता संदेश
+      alert('धन्यवाद! आपका आवेदन प्राप्त हो गया (डेमो).\n\nनाम: ' + data.name + '\nकक्षा: ' + data.class + (data.stream ? (' (' + data.stream + ')') : '') + '\nमोबाइल: ' + data.phone);
+      form.reset();
+    });
+  </script>
+</body>
+
+</html>
